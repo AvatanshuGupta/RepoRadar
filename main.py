@@ -8,7 +8,8 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 mcp=FastMCP(name="RepoRadar")
 
-CLONE_DIR = "cloned_repos"
+CLONE_DIR = os.path.join(os.getcwd(), "cloned_repos")
+os.makedirs(CLONE_DIR, exist_ok=True)
 
 
 @mcp.tool
