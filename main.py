@@ -59,7 +59,7 @@ def edit_or_add_file(repo_name: str, relative_path: str, content: str) -> str:
 @mcp.tool
 def commit_changes(repo_name: str, file_paths: list, commit_message: str) -> str:
     """
-    Commit staged files in a repository. This is separated for security.
+    Commit staged files in a repository. File paths must be relative to repo root.
     """
     repo_path = os.path.join(CLONE_DIR, repo_name)
     if not os.path.exists(repo_path):
@@ -67,14 +67,14 @@ def commit_changes(repo_name: str, file_paths: list, commit_message: str) -> str
 
     repo = Repo(repo_path)
 
-    # Stage only the specified files
-    staged_files = [os.path.join(repo_path, f) for f in file_paths]
-    repo.index.add(staged_files)
+    # Stage files using paths **relative to repo root**
+    repo.index.add(file_paths)
 
     # Commit
     repo.index.commit(commit_message)
 
     return f"Committed {len(file_paths)} file(s) with message: '{commit_message}'"
+
 
 
 
